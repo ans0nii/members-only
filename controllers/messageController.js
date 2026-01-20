@@ -37,7 +37,7 @@ exports.createMessagePost = async (req, res) => {
 
 exports.deleteMessagePost = async (req, res) => {
   if (!req.user || !req.user.is_admin) {
-    return res.status(403).send("Forbidden - Admin only");
+    return res.status(403).send("Admin only");
   }
 
   try {

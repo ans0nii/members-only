@@ -23,6 +23,10 @@ async function updateUserMembership(userId) {
   await pool.query("UPDATE users SET is_member = true WHERE id = $1", [userId]);
 }
 
+async function updateUserAdmin(userId) {
+  await pool.query("UPDATE users SET is_admin = true WHERE id = $1", [userId]);
+}
+
 async function getAllMessages() {
   const { rows } = await pool.query(`
     SELECT 
@@ -37,10 +41,6 @@ async function getAllMessages() {
     ORDER BY messages.timestamp DESC
   `);
   return rows;
-}
-
-async function updateUserAdmin(userId) {
-  await pool.query("UPDATE users SET is_admin = true WHERE id = $1", [userId]);
 }
 
 async function insertMessage(title, text, userId) {

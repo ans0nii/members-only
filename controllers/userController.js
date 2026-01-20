@@ -1,3 +1,4 @@
+const passport = require("passport");
 const db = require("../db/queries");
 
 exports.signUpGet = async(req, res) => {
@@ -15,12 +16,6 @@ exports.signUpPost = async(req, res) => {
 
 exports.logInGet = async(req, res) => {
     res.render("/log-in");
-};
-
-
-exports.logInPost = async(req, res) => {
- const { email, password } = req.body;
- 
 };
 
 
