@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import pool from "./pool";
 
 async function insertUser(firstName, lastName, email, password) {
   await pool.query(
@@ -43,7 +43,7 @@ async function getAllMessages() {
   return rows;
 }
 
-async function insertMessage(title, text, userId) {
+async function createMessage(title, text, userId) {
   await pool.query(
     "INSERT INTO messages (title,text,user_id) VALUES ($1, $2, $3)",
     [title, text, userId],
@@ -54,13 +54,13 @@ async function deleteMessage(messageId) {
   await pool.query("DELETE FROM messages WHERE id = $1", [messageId]);
 }
 
-module.exports = {
+export {
   insertUser,
   getUserByEmail,
   getUserById,
   updateUserMembership,
   updateUserAdmin,
   getAllMessages,
-  insertMessage,
+  createMessage,
   deleteMessage,
 };
