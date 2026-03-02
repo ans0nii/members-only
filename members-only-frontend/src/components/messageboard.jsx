@@ -53,3 +53,5 @@ function MessageBoard() {
     </div>
   );
 }
+
+export default MessageBoard;
