@@ -16,12 +16,8 @@ export const getAllMessages = async (req, res) => {
 
 export const createMessage = async (req, res) => {
   try {
-    const { title, text, userId } = req.body;
-
-    if (!userId) {
-      res.status(401).json({ error: "Access Denied!" });
-      return;
-    }
+    const { title, text } = req.body;
+    const userId = req.user.id;
 
     if (!title || !text) {
       res.status(400).json({ error: "Title and text required" });
@@ -39,11 +35,6 @@ export const deleteMessage = async (req, res) => {
   try {
     const messageId = req.params.id;
     const deletedMessage = await db.deleteMessage(messageId);
-
-    if (!deleteMessage) {
-      res.status(404).json({ error: "Failed to delete message" });
-      return;
-    }
 
     res.json(deletedMessage);
   } catch (error) {
