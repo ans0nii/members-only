@@ -3,12 +3,12 @@ import {
   getAllMessages,
   createMessage,
   deleteMessage,
-} from "../controllers/messageController";
+} from "../controllers/messageController.js";
 import {
   authenticateToken,
   requireMember,
   requireAdmin,
-} from "../middleware/auth";
+} from "../middleware/auth.js";
 const { Router } = express;
 const messageRouter = Router();
 

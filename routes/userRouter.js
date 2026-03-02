@@ -5,9 +5,9 @@ import {
   getUserById,
   updateUserMembership,
   updateUserAdmin,
-} from "../controllers/userController";
-import { authenticateToken, requireAdmin } from "../middleware/auth";
-const { Router } = require("express");
+} from "../controllers/userController.js";
+import { authenticateToken, requireAdmin } from "../middleware/auth.js";
+const { Router } = express;
 const userRouter = Router();
 
 userRouter.post("/signup", signup);
