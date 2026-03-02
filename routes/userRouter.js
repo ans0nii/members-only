@@ -1,23 +1,24 @@
+import express from "express";
+import {
+  signup,
+  login,
+  getUserById,
+  updateUserMembership,
+  updateUserAdmin,
+} from "../controllers/userController";
+import { authenticateToken, requireAdmin } from "../middleware/auth";
 const { Router } = require("express");
-const userController = require("../controllers/userController");
-const passport = require("passport");
 const userRouter = Router();
 
-userRouter.get("/sign-up", userController.signUpGet);
-userRouter.post("/sign-up", userController.signUpPost);
+userRouter.post("/signup", signup);
+userRouter.post("/login", login);
 
-userRouter.get("/log-in", userController.logInGet);
-userRouter.post(
-  "/log-in",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/log-in",
-  }),
+userRouter.get("/:id", authenticateToken, getUserById);
+userRouter.put(
+  "/membership",
+  authenticateToken,
+  requireAdmin,
+  updateUserMembership,
 );
-
-userRouter.get("/log-out", userController.logOutGet);
-
-userRouter.get("/join-club", userController.joinClubGet);
-userRouter.post("/join-club", userController.joinClubPost);
-
-module.exports = userRouter;
+userRouter.put("/admin", authenticateToken, requireAdmin, updateUserAdmin);
+export default userRouter;

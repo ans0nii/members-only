@@ -1,12 +1,19 @@
-const { Router } = require("express");
-const messageController = require("../controllers/messageController");
+import express from "express";
+import {
+  getAllMessages,
+  createMessage,
+  deleteMessage,
+} from "../controllers/messageController";
+import {
+  authenticateToken,
+  requireMember,
+  requireAdmin,
+} from "../middleware/auth";
+const { Router } = express;
 const messageRouter = Router();
 
-messageRouter.get("/", messageController.homeGet);
+messageRouter.get("/", getAllMessages);
+messageRouter.post("/", authenticateToken, requireMember, createMessage);
+messageRouter.delete("/:id", authenticateToken, requireAdmin, deleteMessage);
 
-messageRouter.get("/new-message", messageController.createMessageGet);
-messageRouter.post("/new-message", messageController.createMessagePost);
-
-messageRouter.post("/messages/:id/delete", messageController.deleteMessagePost);
-
-module.exports = messageRouter;
+export default messageRouter;
