@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function MessageBoard() {
+function MessageBoard({ user }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState("");
@@ -29,6 +29,37 @@ function MessageBoard() {
     }
   };
 
+  const deleteMessage = async (messageId) => {
+    if (!window.confirm("Are you sure you want to delete this message?")) {
+      return;
+    }
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `http://localhost:8080/api/messages/${messageId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete message");
+      }
+
+      setMessages((prev) =>
+        prev.filter((message) => message.id !== messageId),
+      );
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete message");
+    }
+  };
+
   return (
     <div>
       <h1>Messageboard</h1>
@@ -47,6 +78,10 @@ function MessageBoard() {
             <p>
               By: {message.first_name} {message.last_name}
             </p>
+
+            {user && user.isAdmin && (
+                <button onClick={() => deleteMessage(message.id)}>delete</button>
+            )}
           </div>
         ))
       )}

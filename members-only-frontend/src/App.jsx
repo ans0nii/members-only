@@ -37,7 +37,7 @@ function App() {
         <div>
           <span>Welcome, {user.firstName} </span>
           <button onClick={handleLogout}>Logout</button>
-          <MessageBoard />
+          <MessageBoard user={user}/>
         </div>
       ) : (
         <div>
@@ -45,7 +45,6 @@ function App() {
           <LoginForm onLogin={handleLogin} />
         </div>
       )}
-      <MessageBoard />
     </div>
   );
 }
