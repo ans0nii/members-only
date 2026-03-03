@@ -4,10 +4,12 @@ import MessageBoard from "./components/messageboard";
 import SignupForm from "./components/signupform";
 import LoginForm from "./components/loginform";
 import { useEffect } from "react";
+import CreateMessage from "./components/createmessage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -37,12 +39,19 @@ function App() {
         <div>
           <span>Welcome, {user.firstName} </span>
           <button onClick={handleLogout}>Logout</button>
-          <MessageBoard user={user}/>
+          <MessageBoard user={user} />
+          <CreateMessage onMessageCreated={() => window.location.reload()} />
         </div>
       ) : (
         <div>
-          <SignupForm />
+          <button onClick={() => setShowSignup(!showSignup)}>
+            {showSignup ? "Hide Signup" : "Signup"}
+          </button>
+
+          {showSignup && <SignupForm />}
+
           <LoginForm onLogin={handleLogin} />
+          <MessageBoard user={user} />
         </div>
       )}
     </div>

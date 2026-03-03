@@ -89,6 +89,11 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await db.insertUser(firstName, lastName, email, hashedPassword);
+
+    const newMember = await db.getUserByEmail(email);
+    await db.updateUserMembership(newMember.id);
+    
+
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to create user" });
