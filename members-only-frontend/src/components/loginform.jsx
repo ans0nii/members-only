@@ -69,16 +69,17 @@ function LoginForm({ onLogin }) {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="login-container">
+      <h2 id="login-title">Login</h2>
 
-      {errors && <div>{errors}</div>}
+      {errors && <div className="login-error">{errors}</div>}
 
       {loading ? (
         <p>Logging in...</p>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="login-form">
           <input
+            className="login-input"
             type="email"
             name="email"
             value={formData.email}
@@ -86,13 +87,16 @@ function LoginForm({ onLogin }) {
             placeholder="Enter email..."
           />
           <input
+            className="login-input"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="Enter password..."
           />
-          <button type="submit">Login</button>
+          <button type="submit" id="login-btn">
+            Login
+          </button>
         </form>
       )}
     </div>

@@ -79,46 +79,77 @@ function SignupForm() {
 
   return (
     <div>
-      <h1>Sign Up Form</h1>
+      <h1 id="signup-title">Sign Up Form</h1>
 
-      {errors && <div> {errors} </div>}
+      {errors && (
+        <div className="signup-error" role="alert" aria-live="polite">
+          {" "}
+          {errors}{" "}
+        </div>
+      )}
 
-      {success && <div> {success} </div>}
+      {success && (
+        <div className="signup-success" role="alert" aria-live="polite">
+          {" "}
+          {success}{" "}
+        </div>
+      )}
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
-          <form onSubmit={handleSubmit}>
+        <div className="signup-container">
+          <form onSubmit={handleSubmit} className="signup-form">
             <input
+              className="signup-input"
               type="text"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               placeholder="Enter first name here..."
+              aria-describedby="firstName-error"
+              required
             />
             <input
+              className="signup-input"
               type="text"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Enter last name here..."
+              required
+              aria-describedby="lastName-error"
             />
             <input
+              className="signup-input"
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter email here..."
+              aria-describedby="email-error"
+              required
             />
+
+            <label htmlFor="password" className="visually-hidden">Password</label>
             <input
+              className="signup-input"
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter password here..."
+              required
+              aria-describedby="password-error"
             />
-            <button type="submit">Sign Up</button>
+            <button
+              type="submit"
+              id="signup-btn"
+              disabled={loading}
+              aria-label="Create new account"
+            >
+              Sign Up
+            </button>
           </form>
         </div>
       )}
