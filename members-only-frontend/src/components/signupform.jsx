@@ -106,7 +106,7 @@ function SignupForm() {
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              placeholder="Enter first name here..."
+              placeholder="Enter first name..."
               aria-describedby="firstName-error"
               required
             />
@@ -116,7 +116,7 @@ function SignupForm() {
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
-              placeholder="Enter last name here..."
+              placeholder="Enter last name..."
               required
               aria-describedby="lastName-error"
             />
@@ -126,19 +126,21 @@ function SignupForm() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter email here..."
+              placeholder="Enter email..."
               aria-describedby="email-error"
               required
             />
 
-            <label htmlFor="password" className="visually-hidden">Password</label>
+            <label htmlFor="password" className="visually-hidden">
+              Password
+            </label>
             <input
               className="signup-input"
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter password here..."
+              placeholder="Enter password..."
               required
               aria-describedby="password-error"
             />
