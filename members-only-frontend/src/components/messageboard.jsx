@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styles from "./messageboard.module.css";
 
 function MessageBoard({ user }) {
   const [messages, setMessages] = useState([]);
@@ -51,41 +52,75 @@ function MessageBoard({ user }) {
         throw new Error("Failed to delete message");
       }
 
-      setMessages((prev) =>
-        prev.filter((message) => message.id !== messageId),
-      );
+      setMessages((prev) => prev.filter((message) => message.id !== messageId));
     } catch (error) {
       console.error(error);
       alert("Failed to delete message");
     }
   };
 
+  if (loading) {
+    return (
+      <main className={styles.messageboardMain}>
+        <header className={styles.messageboardHeader}>
+          <h1 id="messageboard-title">Message Board</h1>
+        </header>
+
+        <div className={styles.loadingMessage} role="status" aria-live="polite">
+          Loading messages...
+        </div>
+      </main>
+    );
+  } else if (messages.length === 0) {
+    return <p className={styles.noMessages}>No messages found</p>;
+  }
+
   return (
-    <div>
-      <h1>Messageboard</h1>
-
-      {loading && <div>Loading messages...</div>}
-
-      {errors && <div>{errors}</div>}
-
-      {messages.length === 0 ? (
-        <p>No messages found</p>
-      ) : (
-        messages.map((message) => (
-          <div key={message.id}>
-            <h3>{message.title}</h3>
-            <p>{message.text}</p>
-            <p>
-              By: {message.first_name} {message.last_name}
-            </p>
-
-            {user && user.isAdmin && (
-                <button onClick={() => deleteMessage(message.id)}>delete</button>
-            )}
-          </div>
-        ))
-      )}
-    </div>
+    <main className={styles.messageboardMain}>
+      <header className={styles.messageboardHeader}>
+        <h1 id="messageboard-title">Message Board</h1>
+      </header>
+      <section
+        className={styles.messagesGrid}
+        aria-labelledby="messageboard-title"
+        role="feed"
+        aria-label={`${messages.length} messages displayed`}
+      >
+        {messages.map((message) => (
+          <article
+            key={message.id}
+            className={styles.messageCard}
+            tabIndex="0"
+            aria-labelledby={`message-title-${message.id}`}
+          >
+            <h3
+              id={`message-title-${message.id}`}
+              className={styles.messageTitle}
+            >
+              {message.title}
+            </h3>
+            <p className={styles.messageText}>{message.text}</p>
+            <footer className={styles.messageFooter}>
+              <span
+                className={styles.messageAuthor}
+                aria-label={`Message by ${message.first_name} ${message.last_name}`}
+              >
+                By: {message.first_name} {message.last_name}
+              </span>
+              {user && user.isAdmin && (
+                <button
+                  className={styles.deleteBtn}
+                  onClick={() => deleteMessage(message.id)}
+                  aria-label={`Delete message "${message.title}" by ${message.first_name} ${message.last_name}`}
+                >
+                  Delete
+                </button>
+              )}
+            </footer>
+          </article>
+        ))}
+      </section>
+    </main>
   );
 }
 

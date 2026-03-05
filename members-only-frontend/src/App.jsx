@@ -1,15 +1,15 @@
-import { useState } from "react";
-import "./App.css";
+import { useState,useEffect } from "react";
 import MessageBoard from "./components/messageboard";
 import SignupForm from "./components/signupform";
 import LoginForm from "./components/loginform";
-import { useEffect } from "react";
 import CreateMessage from "./components/createmessage";
+import styles from "./app.module.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [showSignup, setShowSignup] = useState(false);
+  const [showCreateMessage, setShowCreateMessage] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,27 +33,49 @@ function App() {
     setIsAuthenticated(false);
   };
 
+  if (isAuthenticated) {
+    return (
+      <div>
+        <header className={styles.authHeader}>
+          <button
+            className={styles.authToggleBtn}
+            onClick={() => setShowCreateMessage(!showCreateMessage)}
+          >
+            {showCreateMessage ? "Hide Create Message" : "Create Message"}
+          </button>
+          <div className={styles.headerButtons}>
+            <span className={styles.welcomeMessage}>
+              Welcome, {user.firstName}!
+            </span>
+          </div>
+          <button className={styles.logoutBtn} onClick={handleLogout}>
+            Logout
+          </button>
+        </header>
+        {showCreateMessage && (
+          <CreateMessage onMessageCreated={() => window.location.reload()} />
+        )}
+        <MessageBoard user={user} />
+      </div>
+    );
+  }
+
   return (
     <div>
-      {isAuthenticated ? (
-        <div>
-          <span>Welcome, {user.firstName} </span>
-          <button onClick={handleLogout}>Logout</button>
-          <MessageBoard user={user} />
-          <CreateMessage onMessageCreated={() => window.location.reload()} />
-        </div>
-      ) : (
-        <div>
-          <button onClick={() => setShowSignup(!showSignup)}>
-            {showSignup ? "Hide Signup" : "Signup"}
+      <div className={styles.authContainer}>
+        <LoginForm onLogin={handleLogin} />
+        <div className={styles.authDivider}>
+          <span className={styles.authText}>Not signed up?</span>
+          <button
+            className={styles.authToggleBtn}
+            onClick={() => setShowSignup(!showSignup)}
+            aria-expanded={showSignup}
+          >
+            {showSignup ? "Hide Signup" : "Sign Up"}
           </button>
-
-          {showSignup && <SignupForm />}
-
-          <LoginForm onLogin={handleLogin} />
-          <MessageBoard user={user} />
         </div>
-      )}
+        {showSignup && <SignupForm />}
+      </div>
     </div>
   );
 }

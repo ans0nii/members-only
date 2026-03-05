@@ -1,0 +1,87 @@
+.app {
+  background-color: white;
+}
+
+.authContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.authDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 0;
+  margin-bottom: -50px;
+}
+
+.authText {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.authToggleBtn {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  border: 2px solid black;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.6s ease;
+}
+
+.authToggleBtn:hover {
+  background-color: rgba(111, 3, 253, 0.849);
+  color: var(--white);
+}
+
+.authToggleBtn:focus {
+  outline: none;
+}
+
+.authHeader {
+  display: flex;
+  justify-content: space-between;
+  min-height: 60px;
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+}
+
+.welcomeMessage {
+  color: var(--primary-blue);
+  font-size: 18px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.headerButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoutBtn {
+  background-color: var(--error-red);
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.logoutBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3);
+}

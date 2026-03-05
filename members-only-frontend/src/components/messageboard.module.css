@@ -1,0 +1,95 @@
+.messageboardMain {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  word-wrap: break-word;
+}
+
+.messageboardHeader h1 {
+  text-align: center;
+  color: var(--primary-blue);
+  margin-bottom: 30px;
+}
+
+.loadingMessage,
+.errorMessage {
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.errorMessage {
+  color: var(--error-red);
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: 6px;
+}
+
+.noMessages {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 18px;
+  padding: 40px;
+}
+
+.messagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.messageCard {
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+  background-color: white;
+}
+
+.messageCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.messageTitle {
+  color: var(--primary-blue);
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.messageText {
+  color: black;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.messageFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.messageAuthor {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.deleteBtn {
+  background-color: var(--error-red);
+  color: var(--white);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.deleteBtn:hover {
+  background-color: #c82333;
+}

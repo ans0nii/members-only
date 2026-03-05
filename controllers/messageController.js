@@ -24,6 +24,15 @@ export const createMessage = async (req, res) => {
       return;
     }
 
+    if (text.length > 200) {
+      res.json({ error: "Text must be 200 character or less" });
+      return;
+    }
+
+    if (title.length > 30) {
+      res.json({ error: "Title must be 30 characters or less" });
+    }
+
     const message = await db.createMessage(title, text, userId);
     res.status(201).json(message);
   } catch (error) {

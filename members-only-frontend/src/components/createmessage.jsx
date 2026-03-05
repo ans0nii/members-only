@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./createmessage.module.css";
 
 function CreateMessage({ onMessageCreated }) {
   const [formData, setFormData] = useState({
@@ -23,6 +24,16 @@ function CreateMessage({ onMessageCreated }) {
 
     if (!formData.title || !formData.text) {
       setErrors("Both fields are required");
+      return;
+    }
+
+    if (formData.title.length > 100) {
+      setErrors("Message must be 40 character or less");
+      return;
+    }
+
+    if (formData.text.length > 500) {
+      setErrors("Message must be 200 characters or less");
       return;
     }
 
@@ -57,31 +68,109 @@ function CreateMessage({ onMessageCreated }) {
     }
   };
 
+  if (loading) {
+    return (
+      <section
+        className={styles.createMessageSection}
+        aria-labelledby="create-message-title"
+      >
+        <h2 id="create-message-title" className={styles.createMessageTitle}>
+          Create New Message
+        </h2>
+
+        {errors && (
+          <div
+            className={styles.createMessageError}
+            role="alert"
+            aria-live="assertive"
+          >
+            {errors}
+          </div>
+        )}
+
+        <div
+          className={styles.createMessageLoading}
+          role="status"
+          aria-live="polite"
+        >
+          Creating message...
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <div>
-      <h1>Create Message</h1>
+    <section
+      className={styles.createMessageSection}
+      aria-labelledby="create-message-title"
+    >
+      <h2 id="create-message-title" className={styles.createMessageTitle}>
+        Create New Message
+      </h2>
 
-      {loading && <div>Loading...</div>}
+      <form className={styles.createMessageForm} onSubmit={handleSubmit}>
+        <div className={styles.formGroup}>
+          <label
+            htmlFor="message-title"
+            className={`${styles.createMessageLabel} visually-hidden`}
+          >
+            Title *
+          </label>
+          <input
+            id="message-title"
+            type="text"
+            name="title"
+            className={styles.createMessageInput}
+            onChange={handleChange}
+            value={formData.title}
+            placeholder="Enter message title..."
+            maxLength="40"
+            aria-describedby="title-counter title-help"
+          />
+          <div
+            id="title-counter"
+            className={`${styles.characterCounter} ${formData.title.length > 30 ? styles.warning : ""}`}
+          >
+            {formData.title.length}/40 characters
+          </div>
+        </div>
 
-      {errors && <div>{errors}</div>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          onChange={handleChange}
-          value={formData.title}
-          placeholder="Enter title here"
-        />
-        <textarea
-          type="text"
-          name="text"
-          onChange={handleChange}
-          value={formData.text}
-          placeholder="Enter text here"
-        />
-        <button type="submit">Post</button>
+        <div className={styles.formGroup}>
+          <label
+            htmlFor="message-text"
+            className={`${styles.createMessageLabel} visually-hidden`}
+          >
+            Message *
+          </label>
+          <textarea
+            id="message-text"
+            name="text"
+            className={styles.createMessageTextarea}
+            onChange={handleChange}
+            value={formData.text}
+            placeholder="Enter your message here..."
+            maxLength="200"
+            required
+            aria-describedby="text-counter text-help"
+          />
+          <div
+            id="text-counter"
+            className={`${styles.characterCounter} ${formData.text.length > 180 ? styles.warning : ""}`}
+          >
+            {formData.text.length}/200 characters
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className={styles.createMessageBtn}
+          disabled={loading}
+          aria-label="Post your message to the message board"
+        >
+          {loading ? "Posting..." : "Post Message"}
+        </button>
       </form>
-    </div>
+    </section>
   );
 }
 

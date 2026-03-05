@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./signupform.module.css";
 
 function SignupForm() {
   const [formData, setFormData] = useState({
@@ -59,7 +60,8 @@ function SignupForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add information");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to create account");
       }
 
       setSuccess("Account created successfully! You can now login");
@@ -77,84 +79,103 @@ function SignupForm() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className={styles.signupContainer}>
+        <header>
+          <h1 className={styles.signupTitle}>Sign Up Form</h1>
+        </header>
+
+        {errors && (
+          <div className={styles.signupError} role="alert" aria-live="polite">
+            {errors}
+          </div>
+        )}
+
+        {success && (
+          <div className={styles.signupSuccess} role="alert" aria-live="polite">
+            {success}
+          </div>
+        )}
+
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <h1 id="signup-title">Sign Up Form</h1>
+    <div className={styles.signupContainer}>
+      <header>
+        <h1 className={styles.signupTitle}>Sign Up Form</h1>
+      </header>
 
       {errors && (
-        <div className="signup-error" role="alert" aria-live="polite">
-          {" "}
-          {errors}{" "}
+        <div className={styles.signupError} role="alert" aria-live="polite">
+          {errors}
         </div>
       )}
 
       {success && (
-        <div className="signup-success" role="alert" aria-live="polite">
-          {" "}
-          {success}{" "}
+        <div className={styles.signupSuccess} role="alert" aria-live="polite">
+          {success}
         </div>
       )}
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="signup-container">
-          <form onSubmit={handleSubmit} className="signup-form">
-            <input
-              className="signup-input"
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="Enter first name..."
-              aria-describedby="firstName-error"
-              required
-            />
-            <input
-              className="signup-input"
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Enter last name..."
-              required
-              aria-describedby="lastName-error"
-            />
-            <input
-              className="signup-input"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter email..."
-              aria-describedby="email-error"
-              required
-            />
+      <form onSubmit={handleSubmit} className={styles.signupForm}>
+        <div className="visually-hidden">Account Information</div>
 
-            <label htmlFor="password" className="visually-hidden">
-              Password
-            </label>
-            <input
-              className="signup-input"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter password..."
-              required
-              aria-describedby="password-error"
-            />
-            <button
-              type="submit"
-              id="signup-btn"
-              disabled={loading}
-              aria-label="Create new account"
-            >
-              Sign Up
-            </button>
-          </form>
-        </div>
-      )}
+        <input
+          className={styles.signupInput}
+          type="text"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+          placeholder="Enter first name..."
+          aria-describedby="firstName-error"
+        />
+        <input
+          className={styles.signupInput}
+          type="text"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+          placeholder="Enter last name..."
+          aria-describedby="lastName-error"
+        />
+        <input
+          className={styles.signupInput}
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter email..."
+          aria-describedby="email-error"
+        />
+
+        <label htmlFor="password" className="visually-hidden">
+          Password
+        </label>
+        <input
+          className={styles.signupInput}
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Enter password..."
+          aria-describedby="password-error"
+        />
+
+        <footer>
+          <button
+            type="submit"
+            className={styles.signupBtn}
+            disabled={loading}
+            aria-label="Create new account"
+          >
+            Sign Up
+          </button>
+        </footer>
+      </form>
     </div>
   );
 }

@@ -1,0 +1,116 @@
+.createMessageSection {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.createMessageTitle {
+  font-size: 24px;
+  text-align: center;
+  color: var(--primary-blue);
+  margin-bottom: 20px;
+}
+
+.createMessageForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.createMessageLabel {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.createMessageInput,
+.createMessageTextarea {
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: var(--white);
+  color: black;
+  font-family: inherit;
+}
+
+.createMessageInput:focus,
+.createMessageTextarea:focus {
+  background-color: var(--white);
+  border-color: black;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(2, 118, 235, 0.1);
+}
+
+.createMessageTextarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.characterCounter {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 2px;
+}
+
+.characterCounter.warning {
+  color: #f39c12;
+}
+
+.characterCounter.danger {
+  color: var(--error-red);
+}
+
+.createMessageBtn {
+  padding: 14px 20px;
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.createMessageBtn:hover {
+  background-color: var(--primary-blue-hover);
+}
+
+.createMessageBtn:focus {
+  outline: none;
+  box-shadow: black;
+}
+
+.createMessageBtn:disabled {
+  background-color: var(--dark-gray);
+  cursor: not-allowed;
+}
+
+.createMessageError {
+  color: var(--error-red);
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.createMessageLoading {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 20px;
+}
+

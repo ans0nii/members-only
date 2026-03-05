@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./loginform.module.css";
 
 function LoginForm({ onLogin }) {
   const [formData, setFormData] = useState({
@@ -68,56 +69,60 @@ function LoginForm({ onLogin }) {
     }
   };
 
-  return (
-    <div className="login-container">
-      <h2 id="login-title">Login</h2>
+  if (loading) {
+    return (
+      <div className={styles.loginContainer}>
+        <h2 className={styles.loginTitle}>Login</h2>
+        <p>Logging in...</p>
+      </div>
+    );
+  }
 
+  return (
+    <div className={styles.loginContainer}>
+      <h2 className={styles.loginTitle}>Login</h2>
       {errors && (
-        <div className="login-error" role="alert" aria-live="polite">
+        <div className={styles.loginError} role="alert" aria-live="polite">
           {errors}
         </div>
       )}
 
-      {loading ? (
-        <p>Logging in...</p>
-      ) : (
-        <form onSubmit={handleSubmit} className="login-form">
-          <label htmlFor="login-email" className="visually-hidden">
-            Email address
-          </label>
-          <input
-            className="login-input"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter email..."
-            aria-describedby="email-error"
-            autoComplete="email"
-          />
-          <label htmlFor="login-password" className="visually-hidden">
-            Password
-          </label>
-          <input
-            className="login-input"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter password..."
-            aria-describedby="password-error"
-            autoComplete="current-password"
-          />
-          <button
-            type="submit"
-            id="login-btn"
-            disabled={loading}
-            aria-label="Sign into your account"
-          >
-            {loading ? "Signing In..." : "Login"}
-          </button>
-        </form>
-      )}
+      <form onSubmit={handleSubmit} className={styles.loginForm}>
+        <label htmlFor="login-email" className="visually-hidden">
+          Email address
+        </label>
+        <input
+          className={styles.loginInput}
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter email..."
+          aria-describedby="email-error"
+          autoComplete="email"
+        />
+        <label htmlFor="login-password" className="visually-hidden">
+          Password
+        </label>
+        <input
+          className={styles.loginInput}
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Enter password..."
+          aria-describedby="password-error"
+          autoComplete="current-password"
+        />
+        <button
+          type="submit"
+          className={styles.loginBtn}
+          disabled={loading}
+          aria-label="Sign into your account"
+        >
+          {loading ? "Signing In..." : "Login"}
+        </button>
+      </form>
     </div>
   );
 }
