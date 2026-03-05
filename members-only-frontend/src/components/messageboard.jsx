@@ -80,6 +80,12 @@ function MessageBoard({ user }) {
       <header className={styles.messageboardHeader}>
         <h1 id="messageboard-title">Message Board</h1>
       </header>
+      {errors && (
+        <div className={styles.errorMessage} role="alert" aria-live="assertive">
+          {errors}
+        </div>
+      )}
+      
       <section
         className={styles.messagesGrid}
         aria-labelledby="messageboard-title"
