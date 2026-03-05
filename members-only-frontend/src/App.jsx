@@ -3,6 +3,7 @@ import MessageBoard from "./components/messageboard";
 import SignupForm from "./components/signupform";
 import LoginForm from "./components/loginform";
 import CreateMessage from "./components/createmessage";
+import { useMessages } from "./contexts/messagescontext";
 import styles from "./app.module.css";
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
   const [user, setUser] = useState(null);
   const [showSignup, setShowSignup] = useState(false);
   const [showCreateMessage, setShowCreateMessage] = useState(false);
+  
+  const { messages } = useMessages();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -39,9 +42,22 @@ function App() {
         <header className={styles.authHeader}>
           <button
             className={styles.authToggleBtn}
-            onClick={() => setShowCreateMessage(!showCreateMessage)}
+            onClick={() => {
+              if (messages.length >= 20) {
+                alert(
+                  "Message board is full! This is a demo and messages are limited for performance",
+                );
+                return;
+              }
+              setShowCreateMessage(!showCreateMessage);
+            }}
+            disabled={messages.length >= 20}
           >
-            {showCreateMessage ? "Hide Create Message" : "Create Message"}
+            {showCreateMessage
+              ? "Hide Create Message"
+              : messages.length >= 20
+                ? "Board full 20/20"
+                : "Create Message"}
           </button>
           <div className={styles.headerButtons}>
             <span className={styles.welcomeMessage}>
@@ -52,9 +68,7 @@ function App() {
             Logout
           </button>
         </header>
-        {showCreateMessage && (
-          <CreateMessage onMessageCreated={() => window.location.reload()} />
-        )}
+        {showCreateMessage && messages.length < 20 && <CreateMessage />}
         <MessageBoard user={user} />
       </div>
     );

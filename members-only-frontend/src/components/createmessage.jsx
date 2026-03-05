@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useMessages } from "../contexts/messagescontext";
 import styles from "./createmessage.module.css";
 
-function CreateMessage({ onMessageCreated }) {
+function CreateMessage() {
+  const { refreshMessages } = useMessages();
+  
   const [formData, setFormData] = useState({
     title: "",
     text: "",
@@ -27,12 +30,12 @@ function CreateMessage({ onMessageCreated }) {
       return;
     }
 
-    if (formData.title.length > 100) {
-      setErrors("Message must be 40 character or less");
+    if (formData.title.length > 40) {
+      setErrors("Title must be 40 character or less");
       return;
     }
 
-    if (formData.text.length > 500) {
+    if (formData.text.length > 200) {
       setErrors("Message must be 200 characters or less");
       return;
     }
@@ -60,7 +63,8 @@ function CreateMessage({ onMessageCreated }) {
       }
 
       setFormData({ title: "", text: "" });
-      onMessageCreated();
+
+      refreshMessages();
     } catch (error) {
       setErrors(error.message);
     } finally {
