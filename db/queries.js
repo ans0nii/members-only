@@ -19,6 +19,13 @@ async function getUserById(id) {
   return rows[0];
 }
 
+async function getMessageById(messageId) {
+  const { rows } = await pool.query("SELECT * FROM messages WHERE id = $1", [
+    messageId,
+  ]);
+  return rows[0];
+}
+
 async function updateUserMembership(userId) {
   await pool.query("UPDATE users SET is_member = true WHERE id = $1", [userId]);
 }
@@ -34,6 +41,7 @@ async function getAllMessages() {
       messages.title,
       messages.text,
       messages.timestamp,
+      messages.user_id,
       users.first_name,
       users.last_name
     FROM messages
@@ -44,10 +52,11 @@ async function getAllMessages() {
 }
 
 async function createMessage(title, text, userId) {
-  await pool.query(
-    "INSERT INTO messages (title,text,user_id) VALUES ($1, $2, $3)",
+  const result = await pool.query(
+    "INSERT INTO messages (title,text,user_id) VALUES ($1, $2, $3) RETURNING *",
     [title, text, userId],
   );
+  return result.rows[0];
 }
 
 async function deleteMessage(messageId) {
@@ -63,4 +72,5 @@ export {
   getAllMessages,
   createMessage,
   deleteMessage,
+  getMessageById,
 };

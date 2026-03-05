@@ -43,10 +43,24 @@ export const createMessage = async (req, res) => {
 export const deleteMessage = async (req, res) => {
   try {
     const messageId = req.params.id;
-    const deletedMessage = await db.deleteMessage(messageId);
+    const userId = req.user.id;
+    const isAdmin = req.user.is_admin;
 
-    res.json(deletedMessage);
+    const message = await db.getMessageById(messageId);
+
+    if (!message) {
+      return res.status(404).json({ error: "Message not found" });
+    }
+
+    if (!isAdmin && message.user_id !== userId) {
+      return res
+        .status(403)
+        .json({ error: "You can only delete your own messages" });
+    }
+
+    await db.deleteMessage(messageId);
+    res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch messages" });
+    res.status(500).json({ error: "Failed to delete message" });
   }
 };

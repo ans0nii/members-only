@@ -60,7 +60,7 @@ function MessageBoard({ user }) {
               >
                 By: {message.first_name} {message.last_name}
               </span>
-              {user && user.isAdmin && (
+              {user && (user.isAdmin || message.user_id === user.id) && (
                 <button
                   className={styles.deleteBtn}
                   onClick={() => deleteMessage(message.id)}
