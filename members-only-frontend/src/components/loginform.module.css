@@ -70,3 +70,32 @@
   font-size: 14px;
   margin-bottom: 15px;
 }
+
+@media (max-width: 768px) {
+  .loginContainer {
+    max-width: 90%;
+    margin: 10px auto;
+    padding: 20px;
+  }
+
+  .loginInput {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  .loginBtn {
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginContainer {
+    margin: 5px;
+    padding: 15px;
+  }
+
+  .loginTitle {
+    font-size: 24px;
+  }
+}

@@ -10,6 +10,8 @@ function MessageBoard({ user }) {
     fetchMessages();
   }, []);
 
+  const displayedMessages = messages.slice(0, 20);
+
   const fetchMessages = async () => {
     try {
       setLoading(true);
@@ -85,14 +87,14 @@ function MessageBoard({ user }) {
           {errors}
         </div>
       )}
-      
+
       <section
         className={styles.messagesGrid}
         aria-labelledby="messageboard-title"
         role="feed"
-        aria-label={`${messages.length} messages displayed`}
+        aria-label={`${displayedMessages.length} messages displayed`}
       >
-        {messages.map((message) => (
+        {displayedMessages.map((message) => (
           <article
             key={message.id}
             className={styles.messageCard}
