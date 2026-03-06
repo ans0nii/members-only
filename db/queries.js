@@ -59,6 +59,14 @@ async function createMessage(title, text, userId) {
   return result.rows[0];
 }
 
+async function updateMessage(messageId, title, text) {
+  const result = await pool.query(
+    "UPDATE messages SET title = $1, text = $2 WHERE id = $3 RETURNING *",
+    [title, text, messageId],
+  );
+  return result.rows[0];
+}
+
 async function deleteMessage(messageId) {
   await pool.query("DELETE FROM messages WHERE id = $1", [messageId]);
 }
@@ -73,4 +81,5 @@ export {
   createMessage,
   deleteMessage,
   getMessageById,
+  updateMessage,
 };

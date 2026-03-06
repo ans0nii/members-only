@@ -4,7 +4,7 @@ import styles from "./createmessage.module.css";
 
 function CreateMessage() {
   const { refreshMessages } = useMessages();
-  
+
   const [formData, setFormData] = useState({
     title: "",
     text: "",
@@ -13,11 +13,18 @@ function CreateMessage() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState("");
 
+  const sanitizeInput = (input) => {
+    return input
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+      .replace(/javascript:/gi, "")
+      .replace(/on\w+="[^"]*"/gi, "");
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: sanitizeInput(value),
     }));
     setErrors("");
   };
@@ -46,17 +53,20 @@ function CreateMessage() {
 
       const token = localStorage.getItem("token");
 
-      const response = await fetch("https://members-only-production-b018.up.railway.app/api/messages", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://members-only-production-b018.up.railway.app/api/messages",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: formData.title,
+            text: formData.text,
+          }),
         },
-        body: JSON.stringify({
-          title: formData.title,
-          text: formData.text,
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create message");
