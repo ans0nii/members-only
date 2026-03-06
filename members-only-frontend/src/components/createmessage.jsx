@@ -46,7 +46,7 @@ function CreateMessage() {
 
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:8080/api/messages", {
+      const response = await fetch("https://members-only-production-b018.up.railway.app/api/messages", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
