@@ -16,7 +16,9 @@ export function MessagesProvider({ children }) {
       setLoading(true);
       setErrors("");
 
-      const response = await fetch("https://members-only-production-b018.up.railway.app/api/messages");
+      const response = await fetch(
+        "https://members-only-production-b018.up.railway.app/api/messages",
+      );
 
       if (!response.ok) {
         throw new Error("Failed to GET messages");
@@ -59,7 +61,7 @@ export function MessagesProvider({ children }) {
       alert("Failed to delete message");
     }
   };
-  
+
   const refreshMessages = () => {
     fetchMessages();
   };
@@ -79,10 +81,10 @@ export function MessagesProvider({ children }) {
 }
 
 export function useMessages() {
-    const context = useContext(MessageContext);
+  const context = useContext(MessageContext);
 
-    if(!context) {
-        throw new Error("useMessages must be used within MessagesProvider")
-    }
-    return context;
+  if (!context) {
+    throw new Error("useMessages must be used within MessagesProvider");
+  }
+  return context;
 }
