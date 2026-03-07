@@ -15,7 +15,7 @@ const messageRouter = Router();
 
 messageRouter.get("/", getAllMessages);
 messageRouter.post("/", authenticateToken, requireMember, createMessage);
-messageRouter.delete("/:id", authenticateToken, requireAdmin, deleteMessage);
+messageRouter.delete("/:id", authenticateToken, requireMember, deleteMessage);
 messageRouter.put("/:id", authenticateToken, requireMember, updateMessage);
 
 export default messageRouter;
