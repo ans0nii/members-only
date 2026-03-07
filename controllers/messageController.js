@@ -44,6 +44,7 @@ export const createMessage = async (req, res) => {
 
     if (sanitizeTitle.length > 30) {
       res.json({ error: "Title must be 30 characters or less" });
+      return;
     }
 
     const message = await db.createMessage(sanitizeTitle, sanitizeText, userId);
@@ -68,21 +69,35 @@ export const updateMessage = async (req, res) => {
 
     if (!isAdmin && message.user_id !== userId) {
       res.status(403).json({ error: "You can only edit your own messages" });
+      return;
     }
+
+    const sanitizeString = (str) => {
+      if (!str) return str;
+      return str
+        .toString()
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+        .replace(/javascript:/gi, "")
+        .replace(/on\w+="[^"]*"/gi, "")
+        .trim();
+    };
 
     const sanitizeTitle = sanitizeString(title);
     const sanitizeText = sanitizeString(text);
 
     if (!sanitizeText || !sanitizeTitle) {
       res.status(400).json({ error: "Title and text are required" });
+      return;
     }
 
-    if (sanitizeText > 200) {
+    if (sanitizeText.length > 200) {
       res.status(400).json({ error: "Text must be 200 characters or less" });
+      return;
     }
 
-    if (sanitizeTitle > 30) {
+    if (sanitizeTitle.length > 30) {
       res.status(400).json({ error: "Title must be 30 characters or less" });
+      return;
     }
 
     const updatedMessage = await db.updateMessage(
@@ -90,7 +105,7 @@ export const updateMessage = async (req, res) => {
       sanitizeTitle,
       sanitizeText,
     );
-    res.json(updateMessage);
+    res.json(updatedMessage);
   } catch (error) {
     res.status(500).json({ error: "Failed to update message" });
   }
@@ -105,7 +120,8 @@ export const deleteMessage = async (req, res) => {
     const message = await db.getMessageById(messageId);
 
     if (!message) {
-      return res.status(404).json({ error: "Message not found" });
+      res.status(404).json({ error: "Message not found" });
+      return;
     }
 
     if (!isAdmin && message.user_id !== userId) {
